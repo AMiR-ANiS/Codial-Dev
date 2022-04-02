@@ -1,5 +1,5 @@
-const home = function(req, res){
-    res.end('hi');
+module.exports.home = function(req, res){
+    return res.render('home', {
+        title: "home"
+    });
 }
-
-module.exports.home = home;
