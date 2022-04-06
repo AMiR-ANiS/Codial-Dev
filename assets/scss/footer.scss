@@ -1,11 +1,22 @@
 footer{
-    position: fixed;
+    width: 100%;
+    position: absolute;
     bottom: 0px;
-    width: 100vw;
-    padding: 10px;
     background-color: rgb(48, 48, 48);
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0px;
     color: white;
     p{
         margin: 0;
+        margin-left: 10px;
+    }
+    div{
+        margin-right: 10px;
+        a{
+            text-decoration: none;
+            color: white;
+            padding: 10px;
+        }
     }
 }
