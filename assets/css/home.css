@@ -1,0 +1,22 @@
+#home-container {
+  height: 100%;
+  display: flex; }
+  #home-container #feed-posts {
+    box-sizing: border-box;
+    width: 70%;
+    padding: 5px;
+    height: 100%;
+    overflow: auto;
+    scrollbar-width: none; }
+    #home-container #feed-posts::-webkit-scrollbar {
+      display: none; }
+  #home-container #user-friends {
+    box-sizing: border-box;
+    width: 30%;
+    height: 100%;
+    padding: 5px;
+    overflow: auto;
+    border-left: 1px solid #383838;
+    scrollbar-width: none; }
+    #home-container #user-friends::-webkit-scrollbar {
+      display: none; }

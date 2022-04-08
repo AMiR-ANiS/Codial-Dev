@@ -1,22 +1,26 @@
 footer{
     width: 100%;
-    position: fixed;
-    bottom: 0px;
     background-color: rgb(48, 48, 48);
     display: flex;
     justify-content: space-between;
-    padding: 10px 0px;
+    align-items: center;
     color: white;
+    position: fixed;
+    bottom: 0px;
+    padding: 5px 0px;
+    box-sizing: border-box;
+    height: 40px;
     p{
-        margin: 0;
-        margin-left: 10px;
+        margin: 0px 10px;
     }
     div{
-        margin-right: 10px;
         a{
             text-decoration: none;
             color: white;
-            padding: 10px;
+            margin: 0px 10px;
         }
+    }
+    &:hover{
+        opacity: 0.9;
     }
 }

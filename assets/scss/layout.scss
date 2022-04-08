@@ -1,9 +1,10 @@
 body{
     margin: 0;
-    /* text-align: center; */
+    // scrollbar-width: none;
     #layout-main{
-        display: flex;
-        justify-content: center;
-        margin-bottom: 40px;
+        padding-top: 60px;
+        padding-bottom: 40px;
+        box-sizing: border-box;
+        height: 100vh;
     }
 }
