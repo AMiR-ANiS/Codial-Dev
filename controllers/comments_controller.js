@@ -67,13 +67,16 @@ module.exports.create = async function(req, res){
 
             post.comments.push(comment);
             post.save();
+            req.flash('success', 'Comment added !');
             return res.redirect('/');
         }else{
+            req.flash('error', 'post to be commented upon does not exist !');
             return res.redirect('back');
         }
     }catch(err){
-        console.log('Error', err);
-        return;
+        // console.log('Error', err);
+        req.flash('error', err);
+        return res.redirect('back');
     }
 }
 
@@ -91,12 +94,15 @@ module.exports.destroy = async function(req, res){
                 }
             });
 
+            req.flash('success', 'Comment deleted !');
             return res.redirect('back');
         }else{
+            req.flash('error', 'Unauthorized');
             return res.redirect('back');
         }
     }catch(err){
-        console.log('Error', err);
-        return;
+        // console.log('Error', err);
+        req.flash('error', err);
+        return res.redirect('back');
     }
 }

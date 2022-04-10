@@ -77,7 +77,7 @@ module.exports.createSession = function(req, res){
     // Use flash messages
     // req.flash(key, value); -> set key
     // req.flash(key); -> access key
-    req.flash('success', 'Logged in successfully');
+    req.flash('success', 'Logged in successfully!');
     res.redirect('/');
 };
 
@@ -93,13 +93,20 @@ module.exports.profile = async function(req, res){
     try{
         let user = await User.findById(req.params.id);
 
-        return res.render('user_profile', {
-            title: 'User Profile',
-            profile_user: user 
-        });
+        if(user){
+            return res.render('user_profile', {
+                title: 'User Profile',
+                profile_user: user 
+            });
+        }else{
+            req.flash('error', 'user profile not found!');
+            return res.redirect('back');
+        }
+        
     }catch(err){
-        console.log('Error', err);
-        return;
+        // console.log('Error', err);
+        req.flash('error', err);
+        return res.redirect('back');
     }
 }
 
@@ -107,19 +114,23 @@ module.exports.update = async function(req, res){
     try{
         if(req.params.id == req.user.id){
             await User.findByIdAndUpdate(req.params.id, req.body);
+            req.flash('success', 'Profile updated successfully!');
             return res.redirect('back');
         }else{
+            req.flash('error', 'Unauthorized');
             return res.status(401).send('Unauthorized');
         }
     }catch(err){
-        console.log('Error', err);
-        return;
+        // console.log('Error', err);
+        req.flash('error', err);
+        return res.redirect('back');
     }
 }
 
 module.exports.create = async function(req, res){
     try{
         if(req.body.password != req.body.confirm_password){
+            req.flash('error', 'Enter confirm password same as password!');
             return res.redirect('back');
         }
 
@@ -129,14 +140,16 @@ module.exports.create = async function(req, res){
 
         if(!user){
             await User.create(req.body);
-
+            req.flash('success', 'User account created successfully !');
             return res.redirect('/users/sign-in');
         }else{
+            req.flash('error', 'User with the given email already exists !');
             return res.redirect('back');
         }
     }catch(err){
-        console.log('Error', err);
-        return;
+        // console.log('Error', err);
+        req.flash('error', err);
+        return res.redirect('back');
     }
 }
 
