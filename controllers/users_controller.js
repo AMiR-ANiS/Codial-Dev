@@ -74,11 +74,16 @@ module.exports.signIn = function(req, res){
 
 // sign in and create session for the user
 module.exports.createSession = function(req, res){
+    // Use flash messages
+    // req.flash(key, value); -> set key
+    // req.flash(key); -> access key
+    req.flash('success', 'Logged in successfully');
     res.redirect('/');
 };
 
 module.exports.destroySession = function(req, res){
     req.logout();
+    req.flash('success', 'Logged out!');
     return res.redirect('/');
 }
 
