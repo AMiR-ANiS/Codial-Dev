@@ -1,31 +1,31 @@
-<% for(post of posts){ %>
-    <li>
-        <p>
-            <% if(locals.user && post.user.id == locals.user.id){ %>
-                <small>
-                    <a href="/posts/destroy/<%= post.id %>">
-                        <i class="fa-solid fa-trash"></i>
-                    </a>
-                </small>
-            <% } %>
-            <%= post.content %><br>
+<li id="post-<%= post._id %>">
+    <p>
+        <% if(locals.user && post.user.id == locals.user.id){ %>
             <small>
-                <%= post.user.name %>
+                <a class="delete-post-button" href="/posts/destroy/<%= post.id %>">
+                    <i class="fa-solid fa-trash"></i>
+                </a>
             </small>
-        </p>
-        <div class="post-comments">
-            <% if(locals.user){ %>
-                <form method="POST" action="/comments/create">
-                    <input type="text" name="content" placeholder="Type comment..." required>
-                    <input type="hidden" name="post" value="<%= post._id %>">
-                    <input type="submit" value="Add">
-                </form>
-            <% } %>
-            <div class="post-comments-list">
-                <ul id="post-comments-<%= post._id %>">
+        <% } %>
+        <%= post.content %><br>
+        <small>
+            <%= post.user.name %>
+        </small>
+    </p>
+    <div class="post-comments">
+        <% if(locals.user){ %>
+            <form method="POST" action="/comments/create">
+                <input type="text" name="content" placeholder="Type comment..." required>
+                <input type="hidden" name="post" value="<%= post._id %>">
+                <input type="submit" value="Add">
+            </form>
+        <% } %>
+        <div class="post-comments-list">
+            <ul id="post-comments-<%= post._id %>">
+                <% for(comment of post.comments){ %>
                     <%- include('_comment'); -%>
-                </ul>
-            </div>
+                <% } %>
+            </ul>
         </div>
-    </li>
-<% } %>
+    </div>
+</li>

@@ -1,18 +1,16 @@
-<% for(comment of post.comments){ %>
-    <li>
-        <p>
-            <% if(locals.user && comment.user.id == locals.user.id){ %>
-                <small>
-                    <a href="/comments/destroy/<%= comment.id %>">
-                        <i class="fa-solid fa-trash"></i>
-                    </a>
-                </small>
-            <% } %>
-            <%= comment.content %>
-            <br>
+<li>
+    <p>
+        <% if(locals.user && comment.user.id == locals.user.id){ %>
             <small>
-                <%= comment.user.name %>
+                <a href="/comments/destroy/<%= comment.id %>">
+                    <i class="fa-solid fa-trash"></i>
+                </a>
             </small>
-        </p>
-    </li>
-<% } %>
+        <% } %>
+        <%= comment.content %>
+        <br>
+        <small>
+            <%= comment.user.name %>
+        </small>
+    </p>
+</li>

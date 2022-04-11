@@ -10,7 +10,9 @@
         <% } %>
         <div id="posts-list-container">
             <ul>
-                <%- include('_post'); -%>
+                <% for(post of posts){ %>
+                    <%- include('_post'); -%>
+                <% } %>
             </ul>
         </div>
     </section>
@@ -26,3 +28,5 @@
         <% } %>
     </section>
 </div>
+
+<script src="/js/home_posts.js"></script>
