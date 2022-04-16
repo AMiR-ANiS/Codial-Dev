@@ -54,24 +54,27 @@ module.exports.createPost = async function(req, res){
         if(req.xhr){
             return res.status(200).json({
                 data: {
-                    post: post 
+                    post_id: post._id,
+                    post_content: post.content,
+                    post_user: req.user.name
                 },
-                message: "post created !"
+                message: "post published !"
             });
         }
 
-        req.flash('success', 'post published !');
-        return res.redirect('back');
+        // req.flash('success', 'post published !');
+        // return res.redirect('back');
     }catch(err){
         // console.log('Error', err);
         req.flash('error', err);
-        return res.redirect('back');
+        return res.redirect('/');
     }
 }
 
 module.exports.destroy = async function(req, res){
     try{
         let post = await Post.findById(req.params.id);
+        // console.log(post);
 
         if(post.user == req.user.id){
             post.remove();
@@ -89,15 +92,15 @@ module.exports.destroy = async function(req, res){
                 });
             }
 
-            req.flash('success', 'Post and its associated comments deleted !');
-            return res.redirect('back');
+            // req.flash('success', 'Post and its associated comments deleted !');
+            // return res.redirect('back');
         }else{
             req.flash('error', 'Unauthorized !');
-            return res.redirect('back');
+            return res.redirect('/');
         }
     }catch(err){
         // console.log('Error', err);
         req.flash('error', err);
-        return res.redirect('back');
+        return res.redirect('/');
     }
 }

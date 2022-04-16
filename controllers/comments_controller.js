@@ -67,16 +67,28 @@ module.exports.create = async function(req, res){
 
             post.comments.push(comment);
             post.save();
-            req.flash('success', 'Comment added !');
-            return res.redirect('/');
+
+            if(req.xhr){
+                return res.status(200).json({
+                    data: {
+                        post_id: post._id,
+                        comment_id: comment._id,
+                        comment_content: comment.content,
+                        comment_user: req.user.name
+                    },
+                    message: 'comment added !'
+                });
+            }
+            // req.flash('success', 'Comment added !');
+            // return res.redirect('/');
         }else{
             req.flash('error', 'post to be commented upon does not exist !');
-            return res.redirect('back');
+            return res.redirect('/');
         }
     }catch(err){
         // console.log('Error', err);
         req.flash('error', err);
-        return res.redirect('back');
+        return res.redirect('/');
     }
 }
 
@@ -94,8 +106,16 @@ module.exports.destroy = async function(req, res){
                 }
             });
 
-            req.flash('success', 'Comment deleted !');
-            return res.redirect('back');
+            if(req.xhr){
+                return res.status(200).json({
+                    data: {
+                        comment_id: comment._id
+                    },
+                    message: 'Comment deleted !' 
+                });
+            }
+            // req.flash('success', 'Comment deleted !');
+            // return res.redirect('back');
         }else{
             req.flash('error', 'Unauthorized');
             return res.redirect('back');
