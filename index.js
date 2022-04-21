@@ -8,6 +8,7 @@ const session = require('express-session');
 // session used for session cookie
 const passport = require('passport');
 const passportLocal = require('./config/passport_local_strategy');
+const passportJWT = require('./config/passport-jwt-strategy');
 const MongoStore = require('connect-mongo');
 // const MongoStore = require('connect-mongodb-session')(session);
 const sassMiddleware = require('node-sass-middleware');
