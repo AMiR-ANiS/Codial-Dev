@@ -11,6 +11,11 @@
         &::-webkit-scrollbar{
             display: none;
         }
+
+        #list-of-posts{
+            list-style-type: none;
+            padding-left: 30px;
+        }
     }
     #user-friends{
         box-sizing: border-box;

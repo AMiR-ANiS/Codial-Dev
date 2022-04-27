@@ -1,16 +1,35 @@
+<% let datePosted = new Date(post.comments[i].createdAt); %>
+<% let date = datePosted.toDateString(); %>
+<% let time = datePosted.toLocaleTimeString(); %>
 <li id="comment-<%= post.comments[i]._id %>">
-    <p>
-        <% if(locals.user && post.comments[i].user.id == locals.user.id){ %>
-            <small>
-                <a class="delete-comment-button" href="/comments/destroy/<%= post.comments[i]._id %>">
-                    <i class="fa-solid fa-trash"></i>
-                </a>
-            </small>
-        <% } %>
+    <p class="comment-content">
         <%= post.comments[i].content %>
-        <br>
-        <small>
-            <%= post.comments[i].user.name %>
-        </small>
     </p>
-</li>
+    <small>
+        <strong>
+            <a class="comment-user" href="/users/profile/<%= post.comments[i].user._id %>">
+                <%= post.comments[i].user.name %>
+            </a>
+        </strong>
+        <br>
+        <%= date %>, <%= time %>
+        <br>
+        <span class="comment-like-count">
+            <%= post.comments[i].likes.length %>
+        </span> Likes
+    </small>
+    <div class="comment-actions">
+        <small>
+            <% if(locals.user){ %>
+                <a class="like-button" href="/likes/toggle/?id=<%= post.comments[i]._id %>&type=Comment" title="like" data-likes="<%= post.comments[i].likes.length %>" data-commentid="<%= post.comments[i]._id %>">
+                    <i class="fa-regular fa-thumbs-up"></i>
+                </a>
+            <% } %>
+            <% if(locals.user && post.comments[i].user.id == locals.user.id){ %>
+                <a class="delete-comment-button" href="/comments/destroy/<%= post.comments[i]._id %>">
+                    <i class="fa-regular fa-trash-can"></i>
+                </a>
+            <% } %>
+        </small>
+    </div>
+</li> 

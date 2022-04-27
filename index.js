@@ -27,7 +27,7 @@ app.set('layout extractScripts', true);
 app.use(sassMiddleware({
     src: './assets/scss',
     dest: './assets/css',
-    debug: true,
+    debug: false,
     // when running in production mode, use debug: false
     outputStyle: 'extended',
     // outputStyle: 'compressed'

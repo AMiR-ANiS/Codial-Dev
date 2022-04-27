@@ -1,27 +1,48 @@
+<% let datePosted = new Date(post.createdAt); %>
+<% let date = datePosted.toDateString(); %>
+<% let time = datePosted.toLocaleTimeString(); %>
 <li id="post-<%= post._id %>">
-    <p>
-        <% if(locals.user && post.user.id == locals.user.id){ %>
-            <small>
-                <a class="delete-post-button" href="/posts/destroy/<%= post._id %>">
-                    <i class="fa-solid fa-trash"></i>
-                </a>
-            </small>
-        <% } %>
-        <%= post.content %><br>
-        <small>
-            <%= post.user.name %>
-        </small>
+    <p class="post-content">
+        <%= post.content %>
     </p>
+    <small>
+        posted by:
+        <strong>
+            <a class="post-user" href="/users/profile/<%= post.user._id %>" title="view profile">
+                <%= post.user.name %>
+            </a>
+        </strong>
+        <br>
+        <%= date %>, <%= time %>
+        <br>
+        <span class="post-like-count">
+            <%= post.likes.length %>
+        </span> Likes
+    </small>
+    <div class="post-actions">
+        <small>
+            <% if(locals.user){ %>
+                <a class="like-button" href="/likes/toggle/?id=<%= post._id %>&type=Post" title="like" data-likes="<%= post.likes.length %>" data-postid="<%= post._id %>">
+                    <i class="fa-regular fa-thumbs-up"></i>
+                </a>
+            <% } %>
+            <% if(locals.user && post.user.id == locals.user.id){ %>
+                <a class="delete-post-button" href="/posts/destroy/<%= post._id %>" title="delete post">
+                    <i class="fa-regular fa-trash-can"></i>
+                </a>
+            <% } %>
+        </small>
+    </div>
     <div class="post-comments">
         <% if(locals.user){ %>
-            <form class="new-comment-form" method="POST" action="/comments/create">
+            <form id="post-<%= post._id %>-new-comment-form" method="POST" action="/comments/create">
                 <input type="text" name="content" placeholder="Type comment..." required>
                 <input type="hidden" name="post" value="<%= post._id %>">
                 <input type="submit" value="Add">
             </form>
         <% } %>
-        <div class="post-comments-list">
-            <ul id="post-comments-<%= post._id %>">
+        <div class="comments-container">
+            <ul id="post-<%= post._id %>-comments">
                 <% for(i = post.comments.length-1; i>=0; i--){ %>
                     <%- include('_comment'); -%>
                 <% } %>

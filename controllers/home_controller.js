@@ -44,23 +44,33 @@ const User = require('../models/user');
 
 module.exports.home = async function(req, res){
     try{
-        let posts = await Post.find({}).sort('-createdAt').populate('user').populate({
+        let posts = await Post.find({}).sort({createdAt: -1}).populate('user', {password: 0}).populate({
             path: 'comments',
             populate:{
-                path: 'user' 
+                path: 'user',
+                select: {
+                    password: 0
+                }
+            }
+        }).populate('likes').populate({
+            path: 'comments',
+            populate: {
+                path: 'likes'
             }
         });
 
-        let users = await User.find({});
+        let users = await User.find({}).select({password: 0});
 
         return res.render('home', {
             title: "Codial | Home",
             posts: posts,
             all_users: users 
         });
+
     }catch(err){
         // console.log('Error', err);
         req.flash('error', err);
+        console.log('error ', err);
         return res.redirect('back');
     }
 }

@@ -1,20 +1,20 @@
 <link rel="stylesheet" type="text/css" href="/css/home.css">
+<link rel="stylesheet" type="text/css" href="/css/post.css">
+<link rel="stylesheet" type="text/css" href="/css/comment.css">
 <div id="home-container">
     <section id="feed-posts">
         <h4>Posts</h4>
         <% if(locals.user){ %>
         <form id="new-post-form" method="POST" action="/posts/create">
-            <textarea name="content" rows="3" cols="30" placeholder="post something..." required></textarea>
+            <textarea name="content" rows="5" cols="50" placeholder="post something..." required></textarea>
             <input type="submit" value="Post"> 
         </form>
         <% } %>
-        <div id="posts-list-container">
-            <ul>
-                <% for(post of posts){ %>
-                    <%- include('_post'); -%>
-                <% } %>
-            </ul>
-        </div>
+        <ul id="list-of-posts">
+            <% for(post of posts){ %>
+                <%- include('_post'); -%>
+            <% } %>
+        </ul>
     </section>
 
     <section id="user-friends">
@@ -29,4 +29,4 @@
     </section>
 </div>
 
-<script src="/js/home_posts.js"></script>
+<script src="/js/home.js"></script>

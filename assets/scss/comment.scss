@@ -1,0 +1,17 @@
+.delete-comment-button{
+    color: black;
+    text-decoration: none;
+    &:hover{
+        color: red;
+    }
+}
+.comment-user{
+    color: black;
+    text-decoration: none;
+    &:hover{
+        color: grey;
+    }
+}
+.comment-content{
+    margin-bottom: 0px;
+}

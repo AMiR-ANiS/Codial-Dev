@@ -1,5 +1,6 @@
 const Post = require('../models/post');
 const Comment = require('../models/comment');
+const Like = require('../models/like');
 
 // module.exports.createPost = function(req, res){
 //     Post.create({
@@ -52,13 +53,12 @@ module.exports.createPost = async function(req, res){
         });
 
         if(req.xhr){
+            await post.populate('user', {password: 0});
             return res.status(200).json({
                 data: {
-                    post_id: post._id,
-                    post_content: post.content,
-                    post_user: req.user.name
+                    post: post 
                 },
-                message: "post published !"
+                message: "post published!"
             });
         }
 
@@ -67,7 +67,8 @@ module.exports.createPost = async function(req, res){
     }catch(err){
         // console.log('Error', err);
         req.flash('error', err);
-        return res.redirect('/');
+        console.log('error: ', err);
+        return res.redirect('back');
     }
 }
 
@@ -77,16 +78,28 @@ module.exports.destroy = async function(req, res){
         // console.log(post);
 
         if(post.user == req.user.id){
-            post.remove();
+            await Like.deleteMany({
+                likeable: post._id,
+                onModel: 'Post'
+            });
+
+            await Like.deleteMany({
+                likeable: {
+                    $in: post.comments
+                },
+                onModel: 'Comment'
+            });
 
             await Comment.deleteMany({
-                post: req.params.id 
+                post: post._id
             });
+
+            post.remove();
 
             if(req.xhr){
                 return res.status(200).json({
                     data: {
-                        post_id: req.params.id 
+                        post_id: post._id
                     },
                     message: "post deleted !" 
                 });
@@ -96,11 +109,13 @@ module.exports.destroy = async function(req, res){
             // return res.redirect('back');
         }else{
             req.flash('error', 'Unauthorized !');
-            return res.redirect('/');
+            console.log('Unauthorized!');
+            return res.redirect('back');
         }
     }catch(err){
         // console.log('Error', err);
         req.flash('error', err);
-        return res.redirect('/');
+        console.log('error: ', err);
+        return res.redirect('back');
     }
 }

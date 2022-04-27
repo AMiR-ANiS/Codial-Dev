@@ -93,7 +93,8 @@ module.exports.destroySession = function(req, res){
 
 module.exports.profile = async function(req, res){
     try{
-        let user = await User.findById(req.params.id);
+        let user = await User.findById(req.params.id).select({password: 0});
+        // console.log(user);
 
         if(user){
             return res.render('user_profile', {

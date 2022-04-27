@@ -1,0 +1,28 @@
+.like-button {
+  margin-right: 10px;
+  color: black;
+  text-decoration: none; }
+  .like-button:hover {
+    color: grey; }
+
+.delete-post-button {
+  color: black;
+  text-decoration: none; }
+  .delete-post-button:hover {
+    color: red; }
+
+.comments-container ul {
+  list-style-type: none;
+  padding-left: 30px; }
+
+.post-user {
+  color: black;
+  text-decoration: none; }
+  .post-user:hover {
+    color: grey; }
+
+.post-content {
+  margin-bottom: 0px; }
+
+.post-comments > form {
+  margin: 5px 0px; }

@@ -10,6 +10,9 @@
     scrollbar-width: none; }
     #home-container #feed-posts::-webkit-scrollbar {
       display: none; }
+    #home-container #feed-posts #list-of-posts {
+      list-style-type: none;
+      padding-left: 30px; }
   #home-container #user-friends {
     box-sizing: border-box;
     width: 30%;
