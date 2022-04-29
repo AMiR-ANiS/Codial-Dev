@@ -24,7 +24,7 @@ module.exports.toggleLike = async function(req, res){
 
         if(existingLike){
             likeable.likes.pull(existingLike._id);
-            likeable.save();
+            await likeable.save();
             existingLike.remove();
             deleted = true;
         }else{
@@ -35,7 +35,7 @@ module.exports.toggleLike = async function(req, res){
             });
 
             likeable.likes.push(newLike);
-            likeable.save();
+            await likeable.save();
         }
 
         if(req.xhr){

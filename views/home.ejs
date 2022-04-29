@@ -3,7 +3,7 @@
 <link rel="stylesheet" type="text/css" href="/css/comment.css">
 <div id="home-container">
     <section id="feed-posts">
-        <h4>Posts</h4>
+        <h2>Posts</h2>
         <% if(locals.user){ %>
         <form id="new-post-form" method="POST" action="/posts/create">
             <textarea name="content" rows="5" cols="50" placeholder="post something..." required></textarea>
@@ -17,15 +17,39 @@
         </ul>
     </section>
 
-    <section id="user-friends">
-        <h4>Friends</h4>
-        <% for(u of all_users){ %>
-            <p>
-                <a href="/users/profile/<%= u.id %>">
-                    <%= u.name %>
-                </a>
-            </p>
+    <section id="users">
+        <% if(locals.user){ %>
+            <div id="incoming-reqs">
+                <h3>Incoming friend requests</h3>
+                <ul id="incoming-list">
+                    <% if(curr_user.receivedReqs.length != 0){ %>
+                        <% for(receiveReq of curr_user.receivedReqs){ %>
+                            <%- include('_incoming'); -%>
+                        <% } %>
+                    <% } %>
+                </ul>
+            </div>
+            <div id="friends">
+                <h3>
+                    Friends 
+                </h3>
+                <ul id="friend-list">
+                    <% for(friend of curr_user.friends){ %>
+                        <%- include('_friend'); -%>
+                    <% } %>
+                </ul>
+            </div>
         <% } %>
+        <div id="all-users">
+            <h3>
+                All users 
+            </h3>
+            <ul id="all-users-list">
+                <% for(user of users){ %>
+                    <%- include('_user'); -%>
+                <% } %>
+            </ul>
+        </div>
     </section>
 </div>
 

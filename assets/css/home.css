@@ -13,13 +13,39 @@
     #home-container #feed-posts #list-of-posts {
       list-style-type: none;
       padding-left: 30px; }
-  #home-container #user-friends {
+  #home-container #users {
     box-sizing: border-box;
     width: 30%;
     height: 100%;
     padding: 5px;
     overflow: auto;
-    border-left: 1px solid #383838;
+    border-left: 1px solid black;
     scrollbar-width: none; }
-    #home-container #user-friends::-webkit-scrollbar {
+    #home-container #users::-webkit-scrollbar {
       display: none; }
+    #home-container #users .user-name {
+      color: black;
+      text-decoration: none; }
+      #home-container #users .user-name:hover {
+        color: grey; }
+    #home-container #users .accept-request {
+      margin: 0px 5px;
+      color: black;
+      text-decoration: none; }
+      #home-container #users .accept-request:hover {
+        color: blue; }
+    #home-container #users .reject-request {
+      color: black;
+      text-decoration: none; }
+      #home-container #users .reject-request:hover {
+        color: red; }
+    #home-container #users .remove-friend {
+      margin: 0px 5px;
+      color: black;
+      text-decoration: none; }
+      #home-container #users .remove-friend:hover {
+        color: red; }
+    #home-container #users #friends {
+      border-top: 1px solid black;
+      border-bottom: 1px solid black;
+      margin: 10px 0px; }

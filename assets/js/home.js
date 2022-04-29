@@ -85,6 +85,27 @@
                 </li> `);
     }
 
+    let newFriendDom = function(friendship, currUser){
+        let friendName, friendId;
+        if(friendship.fromUser._id == currUser._id){
+            friendName = friendship.toUser.name;
+            friendId = friendship.toUser._id;
+        }else{
+            friendName = friendship.fromUser.name;
+            friendId = friendship.fromUser._id;
+        }
+        return $(`<li id="friend-${friendship._id}">
+                    <p>
+                        <a class="user-name" href="/users/profile/${friendId}" title="view profile">
+                            ${friendName}
+                        </a>
+                        <a class="remove-friend" href="/friendship/destroy/?id=${friendship._id}" title="remove friend">
+                            <i class="fa-solid fa-user-slash"></i>
+                        </a>
+                    </p>
+                </li>`);
+    }
+
     // method to submit the form data for new post using AJAX
     let ajaxCreatePost = function(){
         let newPostForm = $('#new-post-form');
@@ -247,6 +268,65 @@
         });
     }
 
+    let ajaxAcceptRejectFriendRequest = function(link){
+        link.on('click', function(e){
+            e.preventDefault();
+
+            $.ajax({
+                type: 'post',
+                url: link.attr('href'),
+                success: function(data){
+
+                    $(`#friend-request-${data.data.friendship._id}`).remove();
+
+                    if(data.data.accept){
+                        let newFriend = newFriendDom(data.data.friendship, data.data.curr_user);
+                        $('#friend-list').append(newFriend);
+
+                        let removeLink = $('.remove-friend', newFriend);
+                        ajaxRemoveFriend(removeLink);
+                    }
+                    
+                    new Noty({
+                        text: data.message,
+                        theme: 'relax',
+                        type: 'success',
+                        timeout: 3000,
+                        layout: 'topRight'
+                    }).show();
+                },
+                error: function(error){
+                    console.log(error.responseText);
+                }
+            });
+        });
+    }
+
+    let ajaxRemoveFriend = function(link){
+        link.on('click', function(e){
+            e.preventDefault();
+
+            $.ajax({
+                type: 'post',
+                url: link.attr('href'),
+                success: function(data){
+                    $(`#friend-${data.data.friendship_id}`).remove();
+
+                    new Noty({
+                        text: data.message,
+                        type: 'success',
+                        layout: 'topRight',
+                        timeout: 3000,
+                        theme: 'relax'
+                    }).show();
+                },
+                error: function(error){
+                    console.log(error.responseText);
+                }
+            });
+        });
+    }
+
     let existingPostDeleteLinksToAjax = function(){
         $('.delete-post-button').each(function(){
             let deleteButton = $(this);
@@ -275,9 +355,30 @@
         });
     }
 
+    let existingFriendRequestLinksToAjax = function(){
+        $('.accept-request').each(function(){
+            let acceptLink = $(this);
+            ajaxAcceptRejectFriendRequest(acceptLink);
+        });
+
+        $('.reject-request').each(function(){
+            let rejectLink = $(this);
+            ajaxAcceptRejectFriendRequest(rejectLink);
+        });
+    }
+
+    let existingRemoveFriendLinksToAjax = function(){
+        $('.remove-friend').each(function(){
+            let removeLink = $(this);
+            ajaxRemoveFriend(removeLink);
+        });
+    }
+
     ajaxCreatePost();
     existingPostDeleteLinksToAjax();
     existingNewCommentFormsToAjax();
     existingCommentDeleteLinksToAjax();
     existingLikeLinksToAjax();
+    existingFriendRequestLinksToAjax();
+    existingRemoveFriendLinksToAjax();
 }

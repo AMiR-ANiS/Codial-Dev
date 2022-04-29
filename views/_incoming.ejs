@@ -1,0 +1,13 @@
+<li id="friend-request-<%= receiveReq.id %>">
+    <p>
+        <a class="user-name" href="/users/profile/<%= receiveReq.fromUser.id %>">
+            <%= receiveReq.fromUser.name %>
+        </a>
+        <a class="accept-request" href="/friendship/accept/?fromUser=<%= receiveReq.fromUser.id %>" title="accept request">
+            <i class="fa-regular fa-circle-check"></i>
+        </a>
+        <a class="reject-request" href="/friendship/reject/?fromUser=<%= receiveReq.fromUser.id %>" title="reject request">
+            <i class="fa-regular fa-circle-xmark"></i>
+        </a>
+    </p>
+</li>

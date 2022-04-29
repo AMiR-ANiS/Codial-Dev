@@ -1,0 +1,16 @@
+<li id="friend-<%= friend.id %>">
+    <p>
+        <% if(friend.fromUser.id == curr_user.id){ %>
+            <a class="user-name" href="/users/profile/<%= friend.toUser.id %>" title="view profile">
+                <%= friend.toUser.name %>
+            </a>
+        <% }else{ %>
+            <a class="user-name" href="/users/profile/<%= friend.fromUser.id %>" title="view profile">
+                <%= friend.fromUser.name %>
+            </a>
+        <% } %>
+        <a class="remove-friend" href="/friendship/destroy/?id=<%= friend.id %>" title="remove friend">
+            <i class="fa-solid fa-user-slash"></i>
+        </a>
+    </p>
+</li>

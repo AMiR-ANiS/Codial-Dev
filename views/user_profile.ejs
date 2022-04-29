@@ -2,8 +2,8 @@
 
 <img src="<%= user.avatar %>" alt="<%= user.name %>" width="100">
 
-<% if(user.id == profile_user.id){ %>
-    <form method="POST" action="/users/update/<%= profile_user.id %>" enctype="multipart/form-data">
+<% if(locals.user.id == profile_user.id){ %>
+    <form method="POST" action="/users/update/<%= profile_user._id %>" enctype="multipart/form-data">
         <input type="text" name="name" placeholder="enter name" value="<%= profile_user.name %>" required>
         <input type="email" name="email" placeholder="email" value="<%= profile_user.email %>" required>
 
@@ -11,6 +11,21 @@
         <input type="submit" value="Update">
     </form>
 <% }else{ %>
-    <p><%= profile_user.name %></p>
-    <p><%= profile_user.email %></p>
+    <div class="profile-info">
+        <p><%= profile_user.name %></p>
+        <p><%= profile_user.email %></p>
+        <% if(friend_button.add){ %>
+            <button class="add-friend-button" type="button" data-user="<%= profile_user.id %>" >Add friend</button>
+        <% }else if(friend_button.sent){ %>
+            <button type="button">Friend request pending!</button>
+        <% }else if(friend_button.received){ %>
+            <button type="button" class="accept-friend-button" data-user="<%= profile_user.id %>">Accept friend request</button>
+            <button type="button" class="reject-friend-button" data-user="<%= profile_user.id %>">Reject friend request</button>
+        <% }else{ %>
+            <button type="button" class="remove-friend-button" data-id="<%= friend_button.id %>" data-user="<%= profile_user.id %>">Remove friend</button>
+        <% } %>
+
+    </div>
 <% } %>
+
+<script src="/js/user_profile.js"></script>

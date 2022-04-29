@@ -17,16 +17,56 @@
             padding-left: 30px;
         }
     }
-    #user-friends{
+    #users{
         box-sizing: border-box;
         width: 30%;
         height: 100%;
         padding: 5px;
         overflow: auto;
-        border-left: 1px solid rgb(56, 56, 56);
+        border-left: 1px solid black;
         scrollbar-width: none;
         &::-webkit-scrollbar{
             display: none;
+        }
+
+        .user-name{
+            color: black;
+            text-decoration: none;
+            &:hover{
+                color: grey;
+            }
+        }
+
+        .accept-request{
+            margin: 0px 5px;
+            color: black;
+            text-decoration: none;
+            &:hover{
+                color: blue;
+            }
+        }
+
+        .reject-request{
+            color: black;
+            text-decoration: none;
+            &:hover{
+                color: red;
+            }
+        }
+
+        .remove-friend{
+            margin: 0px 5px;
+            color: black;
+            text-decoration: none;
+            &:hover{
+                color: red;
+            }
+        }
+
+        #friends{
+            border-top: 1px solid black;
+            border-bottom: 1px solid black;
+            margin: 10px 0px;
         }
     }
 }

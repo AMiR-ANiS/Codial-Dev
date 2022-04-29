@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const fs = require('fs');
 const path = require('path');
+const Friendship = require('../models/friendship');
 
 // module.exports.profile = function(req, res){
 //     User.findById(req.params.id, function(err, user){
@@ -93,13 +94,69 @@ module.exports.destroySession = function(req, res){
 
 module.exports.profile = async function(req, res){
     try{
-        let user = await User.findById(req.params.id).select({password: 0});
-        // console.log(user);
+        let currentUser = await User.findById(req.user.id);
+        let profileUser = await User.findById(req.params.id).select({password: 0});
+        
+        if(profileUser){
+            let friendButton = {
+                add : false,
+                sent: false,
+                received: false,
+                friend: false
+            };
 
-        if(user){
+            let friendship = await Friendship.findOne({
+                fromUser: currentUser.id,
+                toUser: profileUser.id,
+                accepted: true
+            });
+
+            if(friendship){
+                friendButton.friend = true;
+
+                friendButton.id = friendship.id;
+            }else{
+                let reverseFriendship = await Friendship.findOne({
+                    fromUser: profileUser.id,
+                    toUser: currentUser.id,
+                    accepted: true
+                });
+
+                if(reverseFriendship){
+                    friendButton.friend = true;
+
+                    friendButton.id = reverseFriendship.id;
+                }else{
+                    let sentRequest = await Friendship.findOne({
+                        fromUser: currentUser.id,
+                        toUser: profileUser.id,
+                        accepted: false
+                    });
+
+                    if(sentRequest){
+                        friendButton.sent = true;
+                    }else{
+                        let receivedRequest = await Friendship.findOne({
+                            fromUser: profileUser.id,
+                            toUser: currentUser.id,
+                            accepted: false
+                        });
+
+                        if(receivedRequest){
+                            friendButton.received = true;
+                        }else{
+                            friendButton.add = true;
+                        }
+                    }
+                }
+            }
+
+            console.log(friendButton);
+
             return res.render('user_profile', {
                 title: 'User Profile',
-                profile_user: user 
+                profile_user: profileUser,
+                friend_button: friendButton
             });
         }else{
             req.flash('error', 'user profile not found!');

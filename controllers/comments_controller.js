@@ -70,7 +70,7 @@ module.exports.create = async function(req, res){
             });
 
             post.comments.push(comment);
-            post.save();
+            await post.save();
 
             await comment.populate('user', {password: 0});
 

@@ -61,11 +61,46 @@ module.exports.home = async function(req, res){
 
         let users = await User.find({}).select({password: 0});
 
-        return res.render('home', {
-            title: "Codial | Home",
-            posts: posts,
-            all_users: users 
-        });
+        if(req.user){
+            let currUser = await User.findById(req.user.id).populate({
+                path: 'receivedReqs',
+                populate: {
+                    path: 'fromUser',
+                    select: {
+                        password: 0 
+                    }
+                }
+            }).populate({
+                path: 'friends',
+                populate: {
+                    path: 'fromUser',
+                    select: {
+                        password: 0
+                    }
+                }
+            }).populate({
+                path: 'friends',
+                populate: {
+                    path: 'toUser',
+                    select: {
+                        password: 0
+                    }
+                }
+            });
+
+            return res.render('home', {
+                title: "Codial | Home",
+                posts: posts,
+                users: users,
+                curr_user: currUser 
+            });
+        }else{
+            return res.render('home', {
+                title: "Codial | Home",
+                posts: posts,
+                users: users 
+            });
+        }
 
     }catch(err){
         // console.log('Error', err);
