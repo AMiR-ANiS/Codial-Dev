@@ -24,4 +24,8 @@ router.get('/auth/google/callback', passport.authenticate('google', {
     failureRedirect: '/users/sign-in'
 }), usersController.createSession);
 
+// github auth
+router.get('/auth/github', passport.authenticate('github', {scope: ['profile', 'email']}));
+router.get('/auth/github/callback', passport.authenticate('github', {failureRedirect: '/users/sign-in'}), usersController.createSession);
+
 module.exports = router;
