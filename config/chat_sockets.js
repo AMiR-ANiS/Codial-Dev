@@ -1,5 +1,7 @@
 // server side: observer
 
+const ChatMessage = require('../models/chat_message');
+
 module.exports.chatSockets = function(socketServer){
     let io = require('socket.io')(socketServer, {
         cors: {
@@ -8,23 +10,43 @@ module.exports.chatSockets = function(socketServer){
     });
 
     io.sockets.on('connection', function(socket){
-        console.log('Socket.io: New connection received! ', socket.id);
+        // console.log('Socket.io: New connection received! ', socket.id);
 
         socket.on('disconnect', function(){
-            console.log('socket disconnected!');
+            // console.log('socket disconnected!');
         });
 
-        socket.on('join_room', function(data){
-            console.log('joining request received: ', data);
+        socket.on('join_room', async function(data){
+            try{
+                // console.log('joining request received: ', data);
+                socket.join(data.chat_room);
 
-            socket.join(data.chat_room);
+                let msgs = await ChatMessage.find({
+                    room: data.chat_room
+                });
 
-            // emit in a specific chat room
-            io.in(data.chat_room).emit('user_joined', data);
+                data.messages = msgs;
+    
+                // emit in a specific chat room
+                io.in(data.chat_room).emit('user_joined', data);
+            }catch(err){
+                console.log('error: ', err);
+            }
         });
 
-        socket.on('send_message', function(data){
-            io.in(data.chat_room).emit('receive_message', data);
+        socket.on('send_message', async function(data){
+            try{
+                let msg = await ChatMessage.create({
+                    message: data.message,
+                    name: data.user_name,
+                    userId: data.user_id,
+                    room: data.chat_room
+                });
+
+                io.in(data.chat_room).emit('receive_message', data);
+            }catch(err){
+                console.log('error: ', err);
+            }
         });
     });
 

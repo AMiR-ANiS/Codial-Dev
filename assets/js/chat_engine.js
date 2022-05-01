@@ -1,16 +1,16 @@
 // client side : subscriber
 
 class ChatEngine{
-    constructor(chatBoxId, userEmail, userName){
-        this.chatBox = $(`#${chatBoxId}`);
-        this.userEmail = userEmail;
+    constructor(chatBoxId, userId, userName){
+        this.chatBox = chatBoxId;
+        this.userId = userId;
         this.userName = userName;
 
         // io is a global variable given by cdn js socket.io
         this.socket = io.connect('http://localhost:5000');
         //io.connect fires an event called connection in chat_sockets.js(server side), send the connect request to server(observer)
 
-        if(this.userEmail){
+        if(this.userId){
             this.connectionHandler();
         }
     }
@@ -19,25 +19,45 @@ class ChatEngine{
         let self = this;
 
         this.socket.on('connect', function(){
-            console.log('connection established!');
+            // console.log('connection established!');
 
             self.socket.emit('join_room', {
-                user_email: self.userEmail,
-                chat_room: 'codial'
+                user_id: self.userId,
+                chat_room: 'codial',
+                chat_id: self.chatBox
             });
 
             self.socket.on('user_joined', function(data){
-                console.log('a user joined: ', data);
+                // console.log('a user joined: ', data);
+                let box = $(`#${data.chat_id}`);
+                let chat = $('#chat-message-list', box);
+                chat.empty();
+                for(let msg of data.messages){
+                    let messageType = 'other-message';
+                    let user = msg.name;
+                    if(data.user_id == msg.userId){
+                        messageType = 'self-message';
+                        user = 'me';
+                    }
+                    let m = self.newMessageDom(messageType, msg.message, user);
+
+                    chat.append(m);
+                }
+
+                chat.animate({
+                    scrollTop: chat.prop('scrollHeight')
+                }, 2000);
             });
         });
 
         $('#send-message').on('click', function(){
             let msg = $('#message-input').val();
+            $('#message-input').val('');
             
             if(msg != ''){
                 self.socket.emit('send_message', {
                     message: msg,
-                    user_email: self.userEmail,
+                    user_id: self.userId,
                     user_name: self.userName,
                     chat_room: 'codial'
                 });
@@ -45,16 +65,22 @@ class ChatEngine{
         });
 
         self.socket.on('receive_message', function(data){
-            console.log('message received', data.message);
+            // console.log('message received', data.message);
 
             let messageType = 'other-message';
-            if(data.user_email == self.userEmail){
+            let user = data.user_name;
+            if(data.user_id == self.userId){
                 messageType = 'self-message';
+                user = 'me';
             }
 
-            let newMessage = self.newMessageDom(messageType, data.message, data.user_name);
+            let newMessage = self.newMessageDom(messageType, data.message, user);
 
-            $('#chat-message-list').append(newMessage);
+            let chat = $('#chat-message-list');
+            chat.append(newMessage);
+            chat.animate({
+                scrollTop: chat.prop('scrollHeight')
+            }, 1000);
         });
     }
 

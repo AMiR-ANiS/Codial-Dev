@@ -61,6 +61,6 @@
 
 <% if(locals.user){ %>
     <script>
-        new ChatEngine('user-chat-box', '<%= curr_user.email %>', '<%= curr_user.name %>');
+        new ChatEngine('user-chat-box-<%= curr_user._id %>', '<%= curr_user._id %>', '<%= curr_user.name %>');
     </script>
 <% } %>
