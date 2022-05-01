@@ -2,6 +2,7 @@ const User = require('../models/user');
 const fs = require('fs');
 const path = require('path');
 const Friendship = require('../models/friendship');
+const Post = require('../models/post');
 
 // module.exports.profile = function(req, res){
 //     User.findById(req.params.id, function(err, user){
@@ -153,10 +154,33 @@ module.exports.profile = async function(req, res){
 
             // console.log(friendButton);
 
+            let recentPosts = await Post.find({
+                user: profileUser.id
+            })
+            .sort({createdAt: -1})
+            .populate('user', {password: 0})
+            .populate({
+                path: 'comments',
+                populate:{
+                    path: 'user',
+                    select: {
+                        password: 0
+                    }
+                }
+            })
+            .populate('likes').populate({
+                path: 'comments',
+                populate: {
+                    path: 'likes'
+                }
+            });
+
             return res.render('user_profile', {
                 title: 'User Profile',
                 profile_user: profileUser,
-                friend_button: friendButton
+                signed_in_user: currentUser,
+                friend_button: friendButton,
+                recent_posts: recentPosts
             });
         }else{
             req.flash('error', 'user profile not found!');

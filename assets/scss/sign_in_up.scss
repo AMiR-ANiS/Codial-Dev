@@ -1,5 +1,16 @@
-form{
-    input{
-        margin: 10px;
+#sign-in-sign-up-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid black;
+    background-color: rgb(159, 212, 212);
+
+    a{
+        color: rgb(85, 80, 155);
+        margin-left: 40%;
+        text-decoration: none;
     }
+
 }

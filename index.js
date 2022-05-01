@@ -65,7 +65,7 @@ app.use(session({
     //     console.log(err || 'connect-mongodb setup ok');
     // })
     store: MongoStore.create({
-        mongoUrl: 'mongodb://localhost/userSignUpSignIn',
+        mongoUrl: 'mongodb://localhost/codial_db_test',
         autoRemove: 'disabled'
     })
 }));
