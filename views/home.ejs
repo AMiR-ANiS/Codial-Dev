@@ -1,6 +1,7 @@
 <link rel="stylesheet" type="text/css" href="/css/home.css">
 <link rel="stylesheet" type="text/css" href="/css/post.css">
 <link rel="stylesheet" type="text/css" href="/css/comment.css">
+<link rel="stylesheet" type="text/css" href="/css/chat_box.css">
 <div id="home-container">
     <section id="feed-posts">
         <h2>Posts</h2>
@@ -51,6 +52,15 @@
             </ul>
         </div>
     </section>
+
+    <%- include('_chat_box'); -%>
 </div>
 
 <script src="/js/home.js"></script>
+<script src="/js/chat_engine.js"></script>
+
+<% if(locals.user){ %>
+    <script>
+        new ChatEngine('user-chat-box', '<%= curr_user.email %>', '<%= curr_user.name %>');
+    </script>
+<% } %>

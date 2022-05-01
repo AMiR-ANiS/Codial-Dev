@@ -1,4 +1,5 @@
 const express = require('express');
+const app = express();
 const port = 8000;
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -16,7 +17,11 @@ const sassMiddleware = require('node-sass-middleware');
 const flash = require('connect-flash');
 const customMware = require('./config/middleware');
 
-const app = express();
+// Setup the chat server to be used with socket.io
+const chatServer = require('http').Server(app);
+const chatSockets = require('./config/chat_sockets').chatSockets(chatServer);
+chatServer.listen(5000);
+console.log('Chat server is listening on port: 5000');
 
 app.set('view engine', 'ejs');
 app.set('views', './views');

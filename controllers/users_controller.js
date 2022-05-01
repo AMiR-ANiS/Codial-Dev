@@ -151,7 +151,7 @@ module.exports.profile = async function(req, res){
                 }
             }
 
-            console.log(friendButton);
+            // console.log(friendButton);
 
             return res.render('user_profile', {
                 title: 'User Profile',
