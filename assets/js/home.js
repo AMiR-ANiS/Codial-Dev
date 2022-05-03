@@ -459,6 +459,21 @@
         });
     }
 
+    let showHideChat = function(){
+        let chatButton = $('#maximize-chat');
+        let chat = $('.chat-box');
+        chatButton.on('click', function(){
+            chatButton.css('display', 'none');
+            chat.css('display','block');
+        });
+
+        let minimize = $('#minimize-chat', chat);
+        minimize.on('click', function(){
+            chat.css('display', 'none');
+            chatButton.css('display', 'block');
+        });
+    }
+
     ajaxCreatePost();
     existingPostDeleteLinksToAjax();
     existingNewCommentFormsToAjax();
@@ -467,4 +482,5 @@
     existingFriendRequestLinksToAjax();
     existingRemoveFriendLinksToAjax();
     existingLikeByUserCheck();
+    showHideChat();
 }

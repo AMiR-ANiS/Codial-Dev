@@ -1,11 +1,15 @@
 <% if(locals.user){ %>
     <div id="user-chat-box-<%= locals.user.id %>" class="chat-box">
+        <h5>Chat</h5>
+        <button type="button" id="minimize-chat" title="minimize"> <i class="fa-solid fa-down-left-and-up-right-to-center"></i> </button>
         <ul id="chat-message-list">
 
         </ul>
         <div id="chat-message-input-container">
-            <input type="text" id="message-input" placeholder="type message...">
+            <input type="text" id="message-input" placeholder="type message..." required>
             <button type="button" id="send-message">Send</button>
         </div>
     </div>
+
+    <h1 id="maximize-chat" title="chat"> <i class="fa-regular fa-comment"></i> </h1>
 <% } %>

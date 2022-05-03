@@ -4,7 +4,6 @@
 <link rel="stylesheet" type="text/css" href="/css/chat_box.css">
 <div id="home-container">
     <section id="feed-posts">
-        <h2>Posts</h2>
         <% if(locals.user){ %>
         <form id="new-post-form" method="POST" action="/posts/create">
             <textarea name="content" rows="5" cols="50" placeholder="post something..." required></textarea>
@@ -21,7 +20,7 @@
     <section id="users">
         <% if(locals.user){ %>
             <div id="incoming-reqs">
-                <h3>Incoming friend requests</h3>
+                <h4>Incoming friend requests</h4>
                 <ul id="incoming-list">
                     <% if(curr_user.receivedReqs.length != 0){ %>
                         <% for(receiveReq of curr_user.receivedReqs){ %>
@@ -31,9 +30,9 @@
                 </ul>
             </div>
             <div id="friends">
-                <h3>
+                <h4>
                     Friends 
-                </h3>
+                </h4>
                 <ul id="friend-list">
                     <% for(friend of curr_user.friends){ %>
                         <%- include('_friend'); -%>
@@ -42,9 +41,9 @@
             </div>
         <% } %>
         <div id="all-users">
-            <h3>
+            <h4>
                 All users 
-            </h3>
+            </h4>
             <ul id="all-users-list">
                 <% for(u of users){ %>
                     <%- include('_user'); -%>
