@@ -4,6 +4,7 @@ const commentsMailer = require('../mailers/comments_mailer');
 // const queue = require('../config/kue');
 // const commentEmailWorker = require('../workers/comment_email_worker');
 const Like = require('../models/like');
+const Reaction = require('../models/reaction');
 
 // module.exports.create = function(req, res){
 //     Post.findById(req.body.post, function(err, post){
@@ -131,6 +132,11 @@ module.exports.destroy = async function(req, res){
 
             await Like.deleteMany({
                 likeable: comment._id,
+                onModel: 'Comment'
+            });
+
+            await Reaction.deleteMany({
+                entity: comment.id,
                 onModel: 'Comment'
             });
 

@@ -1,6 +1,7 @@
 const Post = require('../models/post');
 const Comment = require('../models/comment');
 const Like = require('../models/like');
+const Reaction = require('../models/reaction');
 
 // module.exports.createPost = function(req, res){
 //     Post.create({
@@ -86,6 +87,18 @@ module.exports.destroy = async function(req, res){
 
             await Like.deleteMany({
                 likeable: {
+                    $in: post.comments
+                },
+                onModel: 'Comment'
+            });
+
+            await Reaction.deleteMany({
+                entity: post.id,
+                onModel: 'Post'
+            });
+
+            await Reaction.deleteMany({
+                entity: {
                     $in: post.comments
                 },
                 onModel: 'Comment'
