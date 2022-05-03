@@ -52,8 +52,9 @@ module.exports.createPost = async function(req, res){
             user: req.user._id 
         });
 
+        await post.populate('user', {password: 0});
+        
         if(req.xhr){
-            await post.populate('user', {password: 0});
             return res.status(200).json({
                 data: {
                     post: post 

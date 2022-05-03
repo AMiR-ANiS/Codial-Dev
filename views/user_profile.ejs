@@ -6,7 +6,7 @@
     <div id="profile-image">
         <img src="<%= profile_user.avatar %>">
     </div> 
-    <% if(signed_in_user.id == profile_user.id){ %>
+    <% if(locals.user.id == profile_user.id){ %>
         <span><%= profile_user.name %></span>
         <div id="update-profile">
             <h3>Update profile:</h3>

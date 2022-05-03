@@ -46,7 +46,7 @@
                 All users 
             </h3>
             <ul id="all-users-list">
-                <% for(user of users){ %>
+                <% for(u of users){ %>
                     <%- include('_user'); -%>
                 <% } %>
             </ul>
@@ -56,11 +56,26 @@
     <%- include('_chat_box'); -%>
 </div>
 
-<script src="/js/home.js"></script>
+<script src="/js/reaction.js"></script>
 <script src="/js/chat_engine.js"></script>
+<script src="/js/home.js"></script>
 
 <% if(locals.user){ %>
     <script>
-        new ChatEngine('user-chat-box-<%= curr_user._id %>', '<%= curr_user._id %>', '<%= curr_user.name %>');
+        new ChatEngine('user-chat-box-<%= locals.user.id %>', '<%= locals.user.id %>', '<%= locals.user.name %>');
+        $('.post-reactions').each(function(){
+            let span = $(this);
+            $('a', span).each(function(){
+                let link = $(this);
+                new EmoteReaction(link);
+            });
+        });
+        $('.comment-reactions').each(function(){
+            let span = $(this);
+            $('a', span).each(function(){
+                let link = $(this);
+                new EmoteReaction(link);
+            });
+        });
     </script>
 <% } %>

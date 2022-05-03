@@ -1,32 +1,55 @@
+<% let comment = post.comments[i]; %>
 <% let datePosted = new Date(post.comments[i].createdAt); %>
 <% let date = datePosted.toDateString(); %>
 <% let time = datePosted.toLocaleTimeString(); %>
 <li id="comment-<%= post.comments[i]._id %>">
     <p class="comment-content">
-        <%= post.comments[i].content %>
+        <%= comment.content %>
     </p>
     <small>
         <strong>
-            <a class="comment-user" href="/users/profile/<%= post.comments[i].user._id %>">
-                <%= post.comments[i].user.name %>
+            <a class="comment-user" href="/users/profile/<%= comment.user.id %>">
+                <%= comment.user.name %>
             </a>
         </strong>
         <br>
         <%= date %>, <%= time %>
         <br>
         <span class="comment-like-count">
-            <%= post.comments[i].likes.length %>
+            <%= comment.likes.length %>
         </span> Likes
     </small>
     <div class="comment-actions">
         <small>
             <% if(locals.user){ %>
-                <a class="like-button" href="/likes/toggle/?id=<%= post.comments[i]._id %>&type=Comment" title="like" data-likes="<%= post.comments[i].likes.length %>" data-commentid="<%= post.comments[i]._id %>">
+                <a class="like-button" href="/likes/toggle/?id=<%= comment.id %>&type=Comment" title="like" data-likes="<%= comment.likes.length %>" data-commentid="<%= comment.id %>">
                     <i class="fa-regular fa-thumbs-up"></i>
-                </a>
+                </a> | 
+                <span class="comment-reactions">
+                    <a id="c-<%= comment.id %>-haha-a" href="/reactions/toggle/?id=<%= comment.id %>&type=Comment&react=haha" title="haha">
+                        <i class="fa-regular fa-face-grin-squint-tears"></i>    
+                    </a>
+                    <span id="c-<%= comment.id %>-haha" data-count="<%= comment.haha.length %>"> <%= comment.haha.length %> </span>
+                    <a id="c-<%= comment.id %>-love-a" href="/reactions/toggle/?id=<%= comment.id %>&type=Comment&react=love" title="love">
+                        <i class="fa-regular fa-heart"></i>
+                    </a>
+                    <span id="c-<%= comment.id %>-love" data-count="<%= comment.love.length %>"> <%= comment.love.length %> </span>
+                    <a id="c-<%= comment.id %>-sad-a" href="/reactions/toggle/?id=<%= comment.id %>&type=Comment&react=sad" title="sad">
+                        <i class="fa-regular fa-face-frown-open"></i>
+                    </a>
+                    <span id="c-<%= comment.id %>-sad" data-count="<%= comment.sad.length %>"> <%= comment.sad.length %> </span>
+                    <a id="c-<%= comment.id %>-angry-a" href="/reactions/toggle/?id=<%= comment.id %>&type=Comment&react=angry" title="angry">
+                        <i class="fa-regular fa-face-angry"></i>
+                    </a>
+                    <span id="c-<%= comment.id %>-angry" data-count="<%= comment.angry.length %>"> <%= comment.angry.length %> </span>
+                    <a id="c-<%= comment.id %>-wow-a" href="/reactions/toggle/?id=<%= comment.id %>&type=Comment&react=wow" title="wow">
+                        <i class="fa-regular fa-face-surprise"></i>
+                    </a>
+                    <span id="c-<%= comment.id %>-wow" data-count="<%= comment.wow.length %>"> <%= comment.wow.length %> </span>
+                </span>
             <% } %>
             <% if(locals.user && post.comments[i].user.id == locals.user.id){ %>
-                <a class="delete-comment-button" href="/comments/destroy/<%= post.comments[i]._id %>">
+                | <a class="delete-comment-button" href="/comments/destroy/<%= post.comments[i]._id %>">
                     <i class="fa-regular fa-trash-can"></i>
                 </a>
             <% } %>

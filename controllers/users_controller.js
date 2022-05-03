@@ -95,8 +95,8 @@ module.exports.destroySession = function(req, res){
 
 module.exports.profile = async function(req, res){
     try{
-        let currentUser = await User.findById(req.user.id);
-        let profileUser = await User.findById(req.params.id).select({password: 0});
+        let profileUser = await User.findById(req.params.id)
+        .select({password: 0});
         
         if(profileUser){
             let friendButton = {
@@ -107,7 +107,7 @@ module.exports.profile = async function(req, res){
             };
 
             let friendship = await Friendship.findOne({
-                fromUser: currentUser.id,
+                fromUser: req.user.id,
                 toUser: profileUser.id,
                 accepted: true
             });
@@ -119,7 +119,7 @@ module.exports.profile = async function(req, res){
             }else{
                 let reverseFriendship = await Friendship.findOne({
                     fromUser: profileUser.id,
-                    toUser: currentUser.id,
+                    toUser: req.user.id,
                     accepted: true
                 });
 
@@ -129,7 +129,7 @@ module.exports.profile = async function(req, res){
                     friendButton.id = reverseFriendship.id;
                 }else{
                     let sentRequest = await Friendship.findOne({
-                        fromUser: currentUser.id,
+                        fromUser: req.user.id,
                         toUser: profileUser.id,
                         accepted: false
                     });
@@ -139,7 +139,7 @@ module.exports.profile = async function(req, res){
                     }else{
                         let receivedRequest = await Friendship.findOne({
                             fromUser: profileUser.id,
-                            toUser: currentUser.id,
+                            toUser: req.user.id,
                             accepted: false
                         });
 
@@ -178,7 +178,6 @@ module.exports.profile = async function(req, res){
             return res.render('user_profile', {
                 title: 'User Profile',
                 profile_user: profileUser,
-                signed_in_user: currentUser,
                 friend_button: friendButton,
                 recent_posts: recentPosts
             });

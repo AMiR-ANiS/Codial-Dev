@@ -24,10 +24,32 @@
             <% if(locals.user){ %>
                 <a class="like-button" href="/likes/toggle/?id=<%= post._id %>&type=Post" title="like" data-likes="<%= post.likes.length %>" data-postid="<%= post._id %>">
                     <i class="fa-regular fa-thumbs-up"></i>
-                </a>
+                </a> | 
+                <span class="post-reactions">
+                    <a id="p-<%= post.id %>-haha-a" href="/reactions/toggle/?id=<%= post.id %>&type=Post&react=haha" title="haha">
+                        <i class="fa-regular fa-face-grin-squint-tears"></i>    
+                    </a>
+                    <span id="p-<%= post.id %>-haha" data-count="<%= post.haha.length %>"> <%= post.haha.length %> </span>
+                    <a id="p-<%= post.id %>-love-a" href="/reactions/toggle/?id=<%= post.id %>&type=Post&react=love" title="love">
+                        <i class="fa-regular fa-heart"></i>
+                    </a>
+                    <span id="p-<%= post.id %>-love" data-count="<%= post.love.length %>"> <%= post.love.length %> </span>
+                    <a id="p-<%= post.id %>-sad-a" href="/reactions/toggle/?id=<%= post.id %>&type=Post&react=sad" title="sad">
+                        <i class="fa-regular fa-face-frown-open"></i>
+                    </a>
+                    <span id="p-<%= post.id %>-sad" data-count="<%= post.sad.length %>"> <%= post.sad.length %> </span>
+                    <a id="p-<%= post.id %>-angry-a" href="/reactions/toggle/?id=<%= post.id %>&type=Post&react=angry" title="angry">
+                        <i class="fa-regular fa-face-angry"></i>
+                    </a>
+                    <span id="p-<%= post.id %>-angry" data-count="<%= post.angry.length %>"> <%= post.angry.length %> </span>
+                    <a id="p-<%= post.id %>-wow-a" href="/reactions/toggle/?id=<%= post.id %>&type=Post&react=wow" title="wow">
+                        <i class="fa-regular fa-face-surprise"></i>
+                    </a>
+                    <span id="p-<%= post.id %>-wow" data-count="<%= post.wow.length %>"> <%= post.wow.length %> </span>
+                </span>
             <% } %>
             <% if(locals.user && post.user.id == locals.user.id){ %>
-                <a class="delete-post-button" href="/posts/destroy/<%= post._id %>" title="delete post">
+                | <a class="delete-post-button" href="/posts/destroy/<%= post._id %>" title="delete post">
                     <i class="fa-regular fa-trash-can"></i>
                 </a>
             <% } %>

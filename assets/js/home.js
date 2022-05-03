@@ -7,6 +7,7 @@
         let postDate = new Date(post.createdAt);
         let date = postDate.toDateString();
         let time = postDate.toLocaleTimeString();
+        
         return $(`<li id="post-${post._id}">
                     <p class="post-content">
                         ${post.content}
@@ -29,8 +30,30 @@
                         <small>
                             <a class="like-button" href="/likes/toggle/?id=${post._id}&type=Post" title="like" data-likes="0" data-postid="${post._id}">
                                 <i class="fa-regular fa-thumbs-up"></i>
-                            </a>
-                            <a class="delete-post-button" href="/posts/destroy/${post._id}" title="delete post">
+                            </a> | 
+                            <span class="post-reactions">
+                                <a id="p-${post._id}-haha-a" href="/reactions/toggle/?id=${post._id}&type=Post&react=haha" title="haha">
+                                    <i class="fa-regular fa-face-grin-squint-tears"></i>    
+                                </a>
+                                <span id="p-${post._id}-haha" data-count="0"> 0 </span>
+                                <a id="p-${post._id}-love-a" href="/reactions/toggle/?id=${post._id}&type=Post&react=love" title="love">
+                                    <i class="fa-regular fa-heart"></i>
+                                </a>
+                                <span id="p-${post._id}-love" data-count="0"> 0 </span>
+                                <a id="p-${post._id}-sad-a" href="/reactions/toggle/?id=${post._id}&type=Post&react=sad" title="sad">
+                                    <i class="fa-regular fa-face-frown-open"></i>
+                                </a>
+                                <span id="p-${post._id}-sad" data-count="0"> 0 </span>
+                                <a id="p-${post._id}-angry-a" href="/reactions/toggle/?id=${post._id}&type=Post&react=angry" title="angry">
+                                    <i class="fa-regular fa-face-angry"></i>
+                                </a>
+                                <span id="p-${post._id}-angry" data-count="0"> 0 </span>
+                                <a id="p-${post._id}-wow-a" href="/reactions/toggle/?id=${post._id}&type=Post&react=wow" title="wow">
+                                    <i class="fa-regular fa-face-surprise"></i>
+                                </a>
+                                <span id="p-${post._id}-wow" data-count="0"> 0 </span>
+                            </span>
+                            | <a class="delete-post-button" href="/posts/destroy/${post._id}" title="delete post">
                                 <i class="fa-regular fa-trash-can"></i>
                             </a>
                         </small>
@@ -43,6 +66,7 @@
                         </form>
                         <div class="comments-container">
                             <ul id="post-${post._id}-comments">
+
                             </ul>
                         </div>
                     </div>
@@ -76,8 +100,30 @@
                         <small>
                             <a class="like-button" href="/likes/toggle/?id=${comment._id}&type=Comment" title="like" data-likes="0" data-commentid="${comment._id}">
                                 <i class="fa-regular fa-thumbs-up"></i>
-                            </a>
-                            <a class="delete-comment-button" href="/comments/destroy/${comment._id}">
+                            </a> | 
+                            <span class="comment-reactions">
+                                <a id="c-${comment._id}-haha-a" href="/reactions/toggle/?id=${comment._id}&type=Comment&react=haha" title="haha">
+                                    <i class="fa-regular fa-face-grin-squint-tears"></i>    
+                                </a>
+                                <span id="c-${comment._id}-haha" data-count="0"> 0 </span>
+                                <a id="c-${comment._id}-love-a" href="/reactions/toggle/?id=${comment._id}&type=Comment&react=love" title="love">
+                                    <i class="fa-regular fa-heart"></i>
+                                </a>
+                                <span id="c-${comment._id}-love" data-count="0"> 0 </span>
+                                <a id="c-${comment._id}-sad-a" href="/reactions/toggle/?id=${comment._id}&type=Comment&react=sad" title="sad">
+                                    <i class="fa-regular fa-face-frown-open"></i>
+                                </a>
+                                <span id="c-${comment._id}-sad" data-count="0"> 0 </span>
+                                <a id="c-${comment._id}-angry-a" href="/reactions/toggle/?id=${comment._id}&type=Comment&react=angry" title="angry">
+                                    <i class="fa-regular fa-face-angry"></i>
+                                </a>
+                                <span id="c-${comment._id}-angry" data-count="0"> 0 </span>
+                                <a id="c-${comment._id}-wow-a" href="/reactions/toggle/?id=${comment._id}&type=Comment&react=wow" title="wow">
+                                    <i class="fa-regular fa-face-surprise"></i>
+                                </a>
+                                <span id="c-${comment._id}-wow" data-count="0"> 0 </span>
+                            </span>
+                            | <a class="delete-comment-button" href="/comments/destroy/${comment._id}">
                                 <i class="fa-regular fa-trash-can"></i>
                             </a>
                         </small>
@@ -120,6 +166,9 @@
                 success: function(data){
                     // console.log(data);
                     // data is json data
+                    let textArea = $('textarea', newPostForm);
+                    textArea.val('');
+
                     let newPost = newPostDom(data.data.post);
                     $('#list-of-posts').prepend(newPost);
 
@@ -134,6 +183,12 @@
                     // $() is delete link inside the new post
                     // .delete-post-button class inside the newPost
                     // space between ( and .delete-post-button
+
+                    let postReactions = $('.post-reactions', newPost);
+                    $('a', postReactions).each(function(){
+                        let link = $(this);
+                        new EmoteReaction(link);
+                    });
 
                     new Noty({
                         text: data.message,
@@ -188,6 +243,9 @@
                 url: '/comments/create',
                 data: commentForm.serialize(),
                 success: function(data){
+                    let input = $('input[name=content]', commentForm);
+                    input.val('');
+
                     let newComment = newCommentDom(data.data.comment);
                     $(`#post-${data.data.comment.post}-comments`).prepend(newComment);
 
@@ -196,6 +254,12 @@
 
                     let newCommentDeleteButton = $('.delete-comment-button', newComment);
                     ajaxDeleteComment(newCommentDeleteButton);
+
+                    let commentReactions = $('.comment-reactions', newComment);
+                    $('a', commentReactions).each(function(){
+                        let link = $(this);
+                        new EmoteReaction(link);
+                    });
 
                     new Noty({
                         text: data.message,
@@ -248,9 +312,11 @@
                     let likesCount = parseInt(link.attr('data-likes'));
                     if(data.data.deleted){
                         likesCount-=1;
+                        link.html('<i class="fa-regular fa-thumbs-up"></i>');
                     }
                     else{
                         likesCount+=1;
+                        link.html('<i class="fa-solid fa-thumbs-up"></i>');
                     }
                     link.attr('data-likes', likesCount);
                     if(link.attr('data-postid')){
@@ -374,6 +440,25 @@
         });
     }
 
+    let existingLikeByUserCheck = function(){
+        $('.like-button').each(function(){
+            let link = $(this);
+
+            $.ajax({
+                type: 'get',
+                url: link.attr('href'),
+                success: function(data){
+                    if(data.data.exist){
+                        link.html('<i class="fa-solid fa-thumbs-up"></i>');
+                    }
+                },
+                error: function(error){
+                    console.log(error.responseText);
+                }
+            });
+        });
+    }
+
     ajaxCreatePost();
     existingPostDeleteLinksToAjax();
     existingNewCommentFormsToAjax();
@@ -381,4 +466,5 @@
     existingLikeLinksToAjax();
     existingFriendRequestLinksToAjax();
     existingRemoveFriendLinksToAjax();
+    existingLikeByUserCheck();
 }

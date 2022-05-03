@@ -12,3 +12,34 @@
 
 .comment-content {
   margin-bottom: 0px; }
+
+.comment-reactions a {
+  text-decoration: none; }
+
+.comment-reactions span {
+  margin-right: 5px; }
+
+.comment-reactions a[title='haha'] {
+  color: #db7500; }
+  .comment-reactions a[title='haha']:hover {
+    color: #c44e00; }
+
+.comment-reactions a[title='love'] {
+  color: #df0000; }
+  .comment-reactions a[title='love']:hover {
+    color: #c50000; }
+
+.comment-reactions a[title='angry'] {
+  color: #df0000; }
+  .comment-reactions a[title='angry']:hover {
+    color: #c50000; }
+
+.comment-reactions a[title='wow'] {
+  color: #db6a00; }
+  .comment-reactions a[title='wow']:hover {
+    color: #c56900; }
+
+.comment-reactions a[title='sad'] {
+  color: #00dd00; }
+  .comment-reactions a[title='sad']:hover {
+    color: #00c400; }

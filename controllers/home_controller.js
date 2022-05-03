@@ -44,7 +44,10 @@ const User = require('../models/user');
 
 module.exports.home = async function(req, res){
     try{
-        let posts = await Post.find({}).sort({createdAt: -1}).populate('user', {password: 0}).populate({
+        let posts = await Post.find({})
+        .sort({createdAt: -1})
+        .populate('user', {password: 0})
+        .populate({
             path: 'comments',
             populate:{
                 path: 'user',
@@ -52,17 +55,26 @@ module.exports.home = async function(req, res){
                     password: 0
                 }
             }
-        }).populate('likes').populate({
+        })
+        .populate('likes')
+        .populate({
             path: 'comments',
             populate: {
                 path: 'likes'
             }
-        });
+        })
+        .populate('haha')
+        .populate('wow')
+        .populate('love')
+        .populate('angry')
+        .populate('sad');
 
-        let users = await User.find({}).select({password: 0});
+        let users = await User.find({})
+        .select({password: 0});
 
         if(req.user){
-            let currUser = await User.findById(req.user.id).populate({
+            let currUser = await User.findById(req.user.id)
+            .populate({
                 path: 'receivedReqs',
                 populate: {
                     path: 'fromUser',
@@ -70,7 +82,8 @@ module.exports.home = async function(req, res){
                         password: 0 
                     }
                 }
-            }).populate({
+            })
+            .populate({
                 path: 'friends',
                 populate: {
                     path: 'fromUser',
@@ -78,7 +91,8 @@ module.exports.home = async function(req, res){
                         password: 0
                     }
                 }
-            }).populate({
+            })
+            .populate({
                 path: 'friends',
                 populate: {
                     path: 'toUser',
@@ -92,13 +106,13 @@ module.exports.home = async function(req, res){
                 title: "Codial | Home",
                 posts: posts,
                 users: users,
-                curr_user: currUser 
+                curr_user: currUser
             });
         }else{
             return res.render('home', {
                 title: "Codial | Home",
                 posts: posts,
-                users: users 
+                users: users
             });
         }
 

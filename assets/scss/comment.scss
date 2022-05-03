@@ -15,3 +15,42 @@
 .comment-content{
     margin-bottom: 0px;
 }
+
+.comment-reactions{
+    a{
+        text-decoration: none;
+    }
+    span{
+        margin-right: 5px;
+    }
+    a[title='haha']{
+        color: rgb(219, 117, 0);
+        &:hover{
+            color: rgb(196, 78, 0);
+        }
+    }
+    a[title='love']{
+        color: rgb(223, 0, 0);
+        &:hover{
+            color: rgb(197, 0, 0);
+        }
+    }
+    a[title='angry']{
+        color: rgb(223, 0, 0);
+        &:hover{
+            color: rgb(197, 0, 0);
+        }
+    }
+    a[title='wow']{
+        color: rgb(219, 106, 0);
+        &:hover{
+            color: rgb(197, 105, 0);
+        }
+    }
+    a[title='sad']{
+        color: rgb(0, 221, 0);
+        &:hover{
+            color: rgb(0, 196, 0);
+        }
+    }
+}

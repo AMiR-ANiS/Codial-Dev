@@ -54,7 +54,9 @@ module.exports.accept = async function(req, res){
         let friendship = await Friendship.findOne({
             fromUser: fromUser.id,
             toUser: toUser.id 
-        }).populate('fromUser', {password: 0}).populate('toUser', {password: 0});
+        })
+        .populate('fromUser', {password: 0})
+        .populate('toUser', {password: 0});
 
         if(friendship){
             fromUser.sentReqs.pull(friendship.id);
@@ -102,7 +104,9 @@ module.exports.reject = async function(req, res){
         let friendship = await Friendship.findOne({
             fromUser: fromUser.id,
             toUser: toUser.id 
-        }).populate('fromUser', {password: 0}).populate('toUser', {password: 0});
+        })
+        .populate('fromUser', {password: 0})
+        .populate('toUser', {password: 0});
 
         fromUser.sentReqs.pull(friendship.id);
         toUser.receivedReqs.pull(friendship.id);

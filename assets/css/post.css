@@ -26,3 +26,34 @@
 
 .post-comments > form {
   margin: 5px 0px; }
+
+.post-reactions a {
+  text-decoration: none; }
+
+.post-reactions span {
+  margin-right: 5px; }
+
+.post-reactions a[title='haha'] {
+  color: #db7500; }
+  .post-reactions a[title='haha']:hover {
+    color: #c44e00; }
+
+.post-reactions a[title='love'] {
+  color: #df0000; }
+  .post-reactions a[title='love']:hover {
+    color: #c50000; }
+
+.post-reactions a[title='angry'] {
+  color: #df0000; }
+  .post-reactions a[title='angry']:hover {
+    color: #c50000; }
+
+.post-reactions a[title='wow'] {
+  color: #db6a00; }
+  .post-reactions a[title='wow']:hover {
+    color: #c56900; }
+
+.post-reactions a[title='sad'] {
+  color: #00dd00; }
+  .post-reactions a[title='sad']:hover {
+    color: #00c400; }

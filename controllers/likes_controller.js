@@ -2,6 +2,35 @@ const Like = require('../models/like');
 const Comment = require('../models/comment');
 const Post = require('../models/post');
 
+module.exports.check = async function(req, res){
+    try{
+        let existingLike = await Like.findOne({
+            user: req.user.id,
+            likeable: req.query.id,
+            onModel: req.query.type
+        });
+
+        let exist = false;
+        if(existingLike){
+            exist = true;
+        }
+
+        if(req.xhr){
+            return res.status(200).json({
+                data: {
+                    exist: exist
+                },
+                message: 'request successful!'
+            });
+        }
+    }catch(err){
+        console.log('error: ', err);
+        return res.status(500).json({
+            message: 'Internal Server Error!'
+        });
+    }
+}
+
 module.exports.toggleLike = async function(req, res){
     try{
         // route: /likes/toggle/?id=postId/commentId&type=post/comment
