@@ -44,5 +44,13 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.16"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AMiR-ANiS/Codial-Development.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AMiR-ANiS/Codial-Development/issues"
+  },
+  "homepage": "https://github.com/AMiR-ANiS/Codial-Development#readme"
 }
