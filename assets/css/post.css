@@ -22,7 +22,7 @@
     color: grey; }
 
 .post-content {
-  margin-bottom: 0px; }
+  margin: 0px; }
 
 .post-comments > form {
   margin: 5px 0px; }
@@ -57,3 +57,13 @@
   color: #00dd00; }
   .post-reactions a[title='sad']:hover {
     color: #00c400; }
+
+.post-image {
+  display: inline-block;
+  height: 300px;
+  padding: 3px;
+  border: 1px solid black; }
+  .post-image img {
+    height: 100%; }
+    .post-image img:hover {
+      opacity: 0.9; }

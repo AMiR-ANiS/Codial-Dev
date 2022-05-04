@@ -3,12 +3,80 @@
     // console.log('script loaded !');
 
     // method to create a post DOM
-    let newPostDom = function(post){
+    let newPostDom = function(post, exist){
         let postDate = new Date(post.createdAt);
         let date = postDate.toDateString();
         let time = postDate.toLocaleTimeString();
         
-        return $(`<li id="post-${post._id}">
+        if(exist){
+            return $(`<li id="post-${post._id}">
+            <div class="post-image">
+                <img src="${post.imagePath}">
+            </div>
+            <p class="post-content">
+                ${post.content}
+            </p>
+            <small>
+                posted by:
+                <strong>
+                    <a class="post-user" href="/users/profile/${post.user._id}" title="view profile">
+                        ${post.user.name}
+                    </a>
+                </strong>
+                <br>
+                ${date}, ${time}
+                <br>
+                <span class="post-like-count">
+                    0
+                </span> Likes
+            </small>
+            <div class="post-actions">
+                <small>
+                    <a class="like-button" href="/likes/toggle/?id=${post._id}&type=Post" title="like" data-likes="0" data-postid="${post._id}">
+                        <i class="fa-regular fa-thumbs-up"></i>
+                    </a> | 
+                    <span class="post-reactions">
+                        <a id="p-${post._id}-haha-a" href="/reactions/toggle/?id=${post._id}&type=Post&react=haha" title="haha">
+                            <i class="fa-regular fa-face-grin-squint-tears"></i>    
+                        </a>
+                        <span id="p-${post._id}-haha" data-count="0"> 0 </span>
+                        <a id="p-${post._id}-love-a" href="/reactions/toggle/?id=${post._id}&type=Post&react=love" title="love">
+                            <i class="fa-regular fa-heart"></i>
+                        </a>
+                        <span id="p-${post._id}-love" data-count="0"> 0 </span>
+                        <a id="p-${post._id}-sad-a" href="/reactions/toggle/?id=${post._id}&type=Post&react=sad" title="sad">
+                            <i class="fa-regular fa-face-frown-open"></i>
+                        </a>
+                        <span id="p-${post._id}-sad" data-count="0"> 0 </span>
+                        <a id="p-${post._id}-angry-a" href="/reactions/toggle/?id=${post._id}&type=Post&react=angry" title="angry">
+                            <i class="fa-regular fa-face-angry"></i>
+                        </a>
+                        <span id="p-${post._id}-angry" data-count="0"> 0 </span>
+                        <a id="p-${post._id}-wow-a" href="/reactions/toggle/?id=${post._id}&type=Post&react=wow" title="wow">
+                            <i class="fa-regular fa-face-surprise"></i>
+                        </a>
+                        <span id="p-${post._id}-wow" data-count="0"> 0 </span>
+                    </span>
+                    | <a class="delete-post-button" href="/posts/destroy/${post._id}" title="delete post">
+                        <i class="fa-regular fa-trash-can"></i>
+                    </a>
+                </small>
+            </div>
+            <div class="post-comments">
+                <form id="post-${post._id}-new-comment-form" method="POST" action="/comments/create">
+                    <input type="text" name="content" placeholder="Type comment..." required>
+                    <input type="hidden" name="post" value="${post._id}">
+                    <input type="submit" value="Add">
+                </form>
+                <div class="comments-container">
+                    <ul id="post-${post._id}-comments">
+
+                    </ul>
+                </div>
+            </div>
+        </li>`);
+        }else{
+            return $(`<li id="post-${post._id}">
                     <p class="post-content">
                         ${post.content}
                     </p>
@@ -71,6 +139,7 @@
                         </div>
                     </div>
                 </li>`);
+        }
     }
 
     // method to create a comment DOM
@@ -158,18 +227,21 @@
 
         newPostForm.on('submit', function(e){
             e.preventDefault();
+            console.log(this);
 
             $.ajax({
                 type: 'post',
                 url: '/posts/create',
-                data: newPostForm.serialize(),
+                data: new FormData(this),
+                processData: false,
+                contentType: false,
                 success: function(data){
                     // console.log(data);
                     // data is json data
                     let textArea = $('textarea', newPostForm);
                     textArea.val('');
 
-                    let newPost = newPostDom(data.data.post);
+                    let newPost = newPostDom(data.data.post, data.data.exist);
                     $('#list-of-posts').prepend(newPost);
 
                     let newPostLikeButton = $('.like-button', newPost);

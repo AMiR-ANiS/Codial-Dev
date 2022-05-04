@@ -1,11 +1,18 @@
 body {
-  background-color: #c7c7c7; }
+  background-color: whitesmoke; }
 
 #user-profile-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px; }
+  padding: 20px;
+  height: 100%;
+  box-sizing: border-box;
+  overflow: auto;
+  scrollbar-width: none; }
+  #user-profile-container::-webkit-scrollbar {
+    display: none; }
+  #user-profile-container #flex-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center; }
   #user-profile-container #profile-image {
     width: 100px;
     height: 100px;
@@ -29,6 +36,8 @@ body {
   #recent-posts ul {
     list-style-type: none;
     margin: 0px; }
+  #recent-posts ul > li {
+    margin-bottom: 10px; }
   #recent-posts .post-actions {
     display: none; }
   #recent-posts .comment-actions {

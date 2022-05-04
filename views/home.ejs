@@ -5,9 +5,13 @@
 <div id="home-container">
     <section id="feed-posts">
         <% if(locals.user){ %>
-        <form id="new-post-form" method="POST" action="/posts/create">
+        <form id="new-post-form" method="POST" action="/posts/create" enctype="multipart/form-data">
             <textarea name="content" rows="5" cols="50" placeholder="post something..." required></textarea>
-            <input type="submit" value="Post"> 
+            <input type="submit" value="Post">
+            <br>
+            Add image: 
+            <i class="fa-solid fa-image" title="Upload image"></i>
+            <input type="file" name="image">
         </form>
         <% } %>
         <ul id="list-of-posts">

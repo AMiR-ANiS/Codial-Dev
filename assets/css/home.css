@@ -13,6 +13,10 @@
     #home-container #feed-posts #list-of-posts {
       list-style-type: none;
       padding-left: 30px; }
+    #home-container #feed-posts #list-of-posts > li {
+      margin: 20px 0px; }
+      #home-container #feed-posts #list-of-posts > li:nth-child(2n+1) {
+        background-color: whitesmoke; }
   #home-container #users {
     box-sizing: border-box;
     width: 30%;

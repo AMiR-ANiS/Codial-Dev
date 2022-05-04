@@ -2,6 +2,11 @@
 <% let date = datePosted.toDateString(); %>
 <% let time = datePosted.toLocaleTimeString(); %>
 <li id="post-<%= post._id %>">
+    <% if(post.imagePath){ %>
+        <div class="post-image">
+            <img src="<%= post.imagePath %>">
+        </div>
+    <% } %>
     <p class="post-content">
         <%= post.content %>
     </p>

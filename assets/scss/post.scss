@@ -27,7 +27,7 @@
     }
 }
 .post-content{
-    margin-bottom: 0px;
+    margin: 0px;
 }
 .post-comments>form{
     margin: 5px 0px;
@@ -68,6 +68,21 @@
         color: rgb(0, 221, 0);
         &:hover{
             color: rgb(0, 196, 0);
+        }
+    }
+}
+
+.post-image{
+    display: inline-block;
+    height: 300px;
+    padding: 3px;
+    border: 1px solid rgb(0, 0, 0);
+
+    img{
+        height: 100%;
+
+        &:hover{
+            opacity: 0.9;
         }
     }
 }

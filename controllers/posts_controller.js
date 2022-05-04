@@ -48,21 +48,33 @@ const Reaction = require('../models/reaction');
 
 module.exports.createPost = async function(req, res){
     try{
-        let post = await Post.create({
-            content: req.body.content,
-            user: req.user._id 
-        });
 
-        await post.populate('user', {password: 0});
-        
-        if(req.xhr){
-            return res.status(200).json({
-                data: {
-                    post: post 
-                },
-                message: "post published!"
+        let post;
+        let exist = false;
+
+        if(req.file){
+            exist = true;
+            post = await Post.create({
+                content: req.body.content,
+                imagePath: Post.imagePath + '/' + req.file.filename,
+                user: req.user.id
+            });
+        }else{
+            post = await Post.create({
+                content: req.body.content,
+                user: req.user.id
             });
         }
+        
+        await post.populate('user', {password: 0});
+
+        return res.status(200).json({
+            data: {
+                post: post,
+                exist: exist
+            },
+            message: 'Post published'
+        });
 
         // req.flash('success', 'post published !');
         // return res.redirect('back');

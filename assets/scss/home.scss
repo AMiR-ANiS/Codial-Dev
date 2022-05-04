@@ -16,6 +16,14 @@
             list-style-type: none;
             padding-left: 30px;
         }
+
+        #list-of-posts>li{
+            margin: 20px 0px;
+
+            &:nth-child(2n+1){
+                background-color: rgb(245, 245, 245);
+            }
+        }
     }
     #users{
         box-sizing: border-box;
