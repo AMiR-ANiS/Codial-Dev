@@ -1,7 +1,4 @@
-// surround in curly brackets for block scope
 {
-    // console.log('script loaded !');
-
     // method to create a post DOM
     let newPostDom = function(post, exist){
         let postDate = new Date(post.createdAt);
@@ -236,8 +233,6 @@
                 processData: false,
                 contentType: false,
                 success: function(data){
-                    // console.log(data);
-                    // data is json data
                     let textArea = $('textarea', newPostForm);
                     textArea.val('');
 
@@ -252,9 +247,6 @@
 
                     let postNewCommentForm = $(`#post-${data.data.post._id}-new-comment-form`, newPost);
                     ajaxCreateComment(postNewCommentForm);
-                    // $() is delete link inside the new post
-                    // .delete-post-button class inside the newPost
-                    // space between ( and .delete-post-button
 
                     let postReactions = $('.post-reactions', newPost);
                     $('a', postReactions).each(function(){
@@ -274,13 +266,11 @@
                     console.log(error.responseText);
                 }
             });
-            // serialize converts the form data into json
         });
     }
 
     // Method to delete a post from DOM
     let ajaxDeletePost = function(deleteButton){
-        // $(deleteLink).click(function(event){
         deleteButton.on('click', function(e){
             e.preventDefault();
 
@@ -288,7 +278,6 @@
                 type: 'get',
                 url: deleteButton.prop('href'),
                 success: function(data){
-                    // console.log(data.data.post_id);
                     $(`#post-${data.data.post_id}`).remove();
                     new Noty({
                         text: data.message,
@@ -302,10 +291,10 @@
                     console.log(error.responseText);
                 }
             });
-            //prop('href') gets the value of href property of passed <a> tag
         });
     }
 
+    //Method for sending new comment form data using AJAX
     let ajaxCreateComment = function(commentForm){
         commentForm.on('submit', function(e){
             e.preventDefault();

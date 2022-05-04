@@ -4,33 +4,6 @@ const path = require('path');
 const Friendship = require('../models/friendship');
 const Post = require('../models/post');
 
-// module.exports.profile = function(req, res){
-//     User.findById(req.params.id, function(err, user){
-//         if(err){
-//             console.log('error in fetching the user from db');
-//             return;
-//         }
-//         return res.render('user_profile',{
-//             title: 'User Profile',
-//             profile_user: user 
-//         });
-//     });
-// };
-
-// module.exports.update = function(req, res){
-//     if(req.params.id == req.user.id){
-//         User.findByIdAndUpdate(req.params.id, req.body, function(err, user){
-//             if(err){
-//                 console.log('error in updating the user');
-//                 return;
-//             }
-//             return res.redirect('back');
-//         });
-//     }else{
-//         return res.status(401).send('Unauthorized');
-//     }
-// }
-
 module.exports.signUp = function(req, res){
     if(req.isAuthenticated()){
         return res.redirect('/users/profile');
@@ -49,38 +22,8 @@ module.exports.signIn = function(req, res){
     });
 };
 
-// get the sign up date
-// module.exports.create = function(req, res){
-//     if(req.body.password != req.body.confirm_password){
-//         return res.redirect('back');
-//     }
-//     User.findOne({
-//         email: req.body.email 
-//     }, function(err, user){
-//         if(err){
-//             console.log('Error in finding the user while signing up');
-//             return;
-//         }
-//         if(!user){
-//             User.create(req.body, function(err, user){
-//                 if(err){
-//                     console.log('Error in creating user while signing up');
-//                     return;
-//                 }
-//                 return res.redirect('/users/sign-in');
-//             });
-//         }
-//         else{
-//             res.redirect('back');
-//         }
-//     });
-// };
-
 // sign in and create session for the user
 module.exports.createSession = function(req, res){
-    // Use flash messages
-    // req.flash(key, value); -> set key
-    // req.flash(key); -> access key
     req.flash('success', 'Logged in successfully!');
     res.redirect('/');
 };
@@ -90,8 +33,6 @@ module.exports.destroySession = function(req, res){
     req.flash('success', 'Logged out!');
     return res.redirect('/');
 }
-
-// Converting to async await
 
 module.exports.profile = async function(req, res){
     try{
@@ -152,8 +93,6 @@ module.exports.profile = async function(req, res){
                 }
             }
 
-            // console.log(friendButton);
-
             let recentPosts = await Post.find({
                 user: profileUser.id
             })
@@ -187,7 +126,6 @@ module.exports.profile = async function(req, res){
         }
         
     }catch(err){
-        // console.log('Error', err);
         req.flash('error', err);
         return res.redirect('back');
     }
@@ -195,11 +133,7 @@ module.exports.profile = async function(req, res){
 
 module.exports.update = async function(req, res){
     try{
-        if(req.params.id == req.user.id){
-            // await User.findByIdAndUpdate(req.params.id, req.body);
-            // req.flash('success', 'Profile updated successfully!');
-            // return res.redirect('back');
-            
+        if(req.params.id == req.user.id){            
             User.uploadedAvatar(req, res, async function(err){
                 if(err){
                     console.log('*****Multer error:', err);
@@ -207,7 +141,6 @@ module.exports.update = async function(req, res){
                 }
 
                 let user = await User.findById(req.params.id);
-                // console.log(req.file);
 
                 // Without multer, req.body cannot be read because it is a multipart form.
                 user.name = req.body.name;
@@ -217,9 +150,8 @@ module.exports.update = async function(req, res){
                     // if user uploads a file
 
                     if(user.avatar){
-                        // delete the existing avatar
-                        // fs and path need to be used
 
+                        // delete the existing avatar
                         fs.unlinkSync(path.join(__dirname, '..', user.avatar));
                     }
                     user.avatar = User.avatarPath + '/' + req.file.filename;
@@ -234,7 +166,7 @@ module.exports.update = async function(req, res){
             return res.status(401).send('Unauthorized');
         }
     }catch(err){
-        // console.log('Error', err);
+        console.log('Error', err);
         req.flash('error', err);
         return res.redirect('back');
     }
@@ -260,7 +192,7 @@ module.exports.create = async function(req, res){
             return res.redirect('back');
         }
     }catch(err){
-        // console.log('Error', err);
+        console.log('Error', err);
         req.flash('error', err);
         return res.redirect('back');
     }

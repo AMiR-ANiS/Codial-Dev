@@ -10,15 +10,12 @@ module.exports.chatSockets = function(socketServer){
     });
 
     io.sockets.on('connection', function(socket){
-        // console.log('Socket.io: New connection received! ', socket.id);
-
         socket.on('disconnect', function(){
-            // console.log('socket disconnected!');
+            
         });
 
         socket.on('join_room', async function(data){
             try{
-                // console.log('joining request received: ', data);
                 socket.join(data.chat_room);
 
                 let msgs = await ChatMessage.find({

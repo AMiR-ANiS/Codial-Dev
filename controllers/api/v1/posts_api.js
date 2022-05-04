@@ -13,11 +13,6 @@ module.exports.index = async function(req, res){
         }
     }).populate('likes');
 
-    // return res.json(200, {
-    //     message: 'list of posts',
-    //     posts: []
-    // });
-
     return res.status(200).json({
         message: 'List of posts',
         posts: posts 
@@ -27,7 +22,6 @@ module.exports.index = async function(req, res){
 module.exports.destroy = async function(req, res){
     try{
         let post = await Post.findById(req.params.id);
-        // console.log(post);
 
         if(post.user == req.user.id){
             post.remove();
@@ -45,7 +39,6 @@ module.exports.destroy = async function(req, res){
             });
         }
     }catch(err){
-        // console.log('Error', err);
         return res.status(500).json({
             message: 'Internal Server Error !'
         });

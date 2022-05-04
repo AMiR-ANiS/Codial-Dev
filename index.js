@@ -5,15 +5,15 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const expressLayouts = require('express-ejs-layouts');
 const db = require('./config/mongoose');
+
+// For session cookie
 const session = require('express-session');
-// session used for session cookie
 const passport = require('passport');
 const passportLocal = require('./config/passport_local_strategy');
 const passportJWT = require('./config/passport-jwt-strategy');
 const passportGoogle = require('./config/passport-google-oauth2-strategy');
 const passportGithub = require('./config/passport-github-strategy');
 const MongoStore = require('connect-mongo');
-// const MongoStore = require('connect-mongodb-session')(session);
 const sassMiddleware = require('node-sass-middleware');
 const flash = require('connect-flash');
 const customMware = require('./config/middleware');
@@ -26,6 +26,7 @@ console.log('Chat server is listening on port: 5000');
 
 app.set('view engine', 'ejs');
 app.set('views', './views');
+
 // extract styles and scripts from subpages into the layout
 app.set('layout extractStyles', true);
 app.set('layout extractScripts', true);
@@ -34,9 +35,7 @@ app.use(sassMiddleware({
     src: './assets/scss',
     dest: './assets/css',
     debug: false,
-    // when running in production mode, use debug: false
     outputStyle: 'extended',
-    // outputStyle: 'compressed'
     prefix: '/css'
 }));
 app.use(bodyParser.urlencoded({
@@ -49,27 +48,23 @@ app.use(express.static('./assets'));
 app.use('/uploads', express.static(__dirname + '/uploads'));
 
 app.use(expressLayouts);
-// mongo store is used to store the session cookie in the db
 app.use(session({
-    name: 'Codeial',
-    //To do : change secret key before deployment in production mode
-    secret: 'blahsomething',
+    name: 'Codial',
+    secret: 'blahSomethingSecret',
     saveUninitialized: false,
     resave: false,
-    cookie: {
-        maxAge: (1000 * 60 * 100) // in milliseconds
-    },
-    // store: new MongoStore({
-    //     mongooseConnection: db,
-    //     autoRemove: 'disabled'
-    // }, function(err){
-    //     console.log(err || 'connect-mongodb setup ok');
-    // })
+
+    //maxAge = 60 minutes
+    cookie: { maxAge: (1000 * 60 * 60) },
+
+    //MongoStore used for storing session cookie in database
     store: MongoStore.create({
         mongoUrl: 'mongodb://localhost/codial_db_test',
         autoRemove: 'disabled'
     })
 }));
+
+// Passport setup
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(passport.setAuthenticatedUser);

@@ -7,20 +7,18 @@ passport.use(new LocalStrategy({
     usernameField: 'email',
     passReqToCallback: true 
 }, function(req, email, password, done){
+
     // Find a user and establish identity
     User.findOne({
         email: email 
     }, function(err, user){
         if(err){
-            // console.log('Error in finding the user --> Passport');
             req.flash('error', err);
             return done(err);
         }
         if(!user || user.password != password){
-            // console.log('Invalid username/password');
             req.flash('error', 'Invalid username/password');
             return done(null, false);
-            // done(err, isAuthenticated?)
         }
         return done(null, user);
     });
@@ -35,7 +33,6 @@ passport.serializeUser(function(user, done){
 passport.deserializeUser(function(id, done){
     User.findById(id, function(err, user){
         if(err){
-            // console.log('Error in finding the user --> passport');
             req.flash('error', err);
             return done(err);
         }
@@ -45,6 +42,7 @@ passport.deserializeUser(function(id, done){
 
 // Check if the user is authenticated
 passport.checkAuthentication = function(req, res, next){
+    
     // if the user is signed in, pass on the request to next function (controller's action)
     if(req.isAuthenticated()){
         return next();

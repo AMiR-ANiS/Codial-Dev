@@ -19,7 +19,6 @@ class ChatEngine{
         let self = this;
 
         this.socket.on('connect', function(){
-            // console.log('connection established!');
 
             self.socket.emit('join_room', {
                 user_id: self.userId,
@@ -28,7 +27,6 @@ class ChatEngine{
             });
 
             self.socket.on('user_joined', function(data){
-                // console.log('a user joined: ', data);
                 let box = $(`#${data.chat_id}`);
                 let chat = $('#chat-message-list', box);
                 chat.empty();
@@ -65,8 +63,6 @@ class ChatEngine{
         });
 
         self.socket.on('receive_message', function(data){
-            // console.log('message received', data.message);
-
             let messageType = 'other-message';
             let user = data.user_name;
             if(data.user_id == self.userId){

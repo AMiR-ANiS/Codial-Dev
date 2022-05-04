@@ -46,6 +46,7 @@ module.exports.create = async function(req, res){
     }
 }
 
+// Accept friend request
 module.exports.accept = async function(req, res){
     try{
         let fromUser = await User.findById(req.query.fromUser);
@@ -96,6 +97,7 @@ module.exports.accept = async function(req, res){
     }
 }
 
+// Reject friend request
 module.exports.reject = async function(req, res){
     try{
         let fromUser = await User.findById(req.query.fromUser);
@@ -135,6 +137,7 @@ module.exports.reject = async function(req, res){
     }
 }
 
+// Remove friend request
 module.exports.destroy = async function(req, res){
     try{
         let friendship = await Friendship.findById(req.query.id);
