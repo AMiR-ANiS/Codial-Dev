@@ -2,6 +2,8 @@ const Post = require('../models/post');
 const Comment = require('../models/comment');
 const Like = require('../models/like');
 const Reaction = require('../models/reaction');
+const fs = require('fs');
+const path = require('path');
 
 // module.exports.createPost = function(req, res){
 //     Post.create({
@@ -120,6 +122,9 @@ module.exports.destroy = async function(req, res){
                 post: post._id
             });
 
+            if(post.imagePath){
+                fs.unlinkSync(path.join(__dirname, '..', post.imagePath));
+            }
             post.remove();
 
             if(req.xhr){
