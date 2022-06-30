@@ -1,1 +1,5 @@
-node_modules/
+/node_modules
+/config/passport-github-strategy.js
+/config/passport-google-oauth2-strategy.js
+/config/passport-jwt-strategy.js
+/config/nodemailer.js
