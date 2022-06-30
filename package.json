@@ -47,10 +47,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AMiR-ANiS/Codial-Development.git"
+    "url": "git+https://github.com/AMiR-ANiS/Codial-Dev.git"
   },
   "bugs": {
-    "url": "https://github.com/AMiR-ANiS/Codial-Development/issues"
+    "url": "https://github.com/AMiR-ANiS/Codial-Dev/issues"
   },
-  "homepage": "https://github.com/AMiR-ANiS/Codial-Development#readme"
+  "homepage": "https://github.com/AMiR-ANiS/Codial-Dev#readme"
 }
